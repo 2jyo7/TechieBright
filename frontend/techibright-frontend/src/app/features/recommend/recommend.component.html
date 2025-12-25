@@ -1,0 +1,42 @@
+<div class="ai-container">
+
+  <h2>AI Career Recommendation</h2>
+
+  <textarea 
+    [(ngModel)]="query"
+    placeholder="Describe your skills, goals, or background"
+    rows="4">
+  </textarea>
+
+  <button (click)="getRecommendation()" [disabled]="loading">
+    {{ loading ? 'Thinking...' : 'Ask AI' }}
+  </button>
+
+  <p class="error-message" *ngIf="errorMsg">{{ errorMsg }}</p>
+
+  <p class="loading-text" *ngIf="loading">Analyzing your query...</p>
+
+  <!-- Recommendation Output -->
+  <div *ngIf="recommendation" class="result-card">
+
+    <h3>Recommended Skills</h3>
+    <ul>
+      <li *ngFor="let skill of recommendation.skills">{{ skill }}</li>
+    </ul>
+
+    <h3>Roles</h3>
+    <ul>
+      <li *ngFor="let role of recommendation.roles">{{ role }}</li>
+    </ul>
+
+    <h3>Roadmap</h3>
+    <ol>
+      <li *ngFor="let step of recommendation.roadmap">{{ step }}</li>
+    </ol>
+
+    <h3>Notes</h3>
+    <p>{{ recommendation.notes }}</p>
+
+  </div>
+
+</div>

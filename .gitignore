@@ -1,0 +1,32 @@
+# ========================
+# Python / Django
+# ========================
+backend/.venv/
+venv/
+.env
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+db.sqlite3
+staticfiles/
+
+# Raw datasets (re-downloadable)
+*.csv
+
+
+
+# ========================
+# Node / Angular
+# ========================
+node_modules/
+.angular/
+dist/
+.cache/
+
+# ========================
+# IDE / OS
+# ========================
+.vscode/
+.DS_Store
+Thumbs.db

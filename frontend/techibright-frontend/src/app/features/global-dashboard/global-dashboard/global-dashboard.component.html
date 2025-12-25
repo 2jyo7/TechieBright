@@ -1,0 +1,69 @@
+<div class="card global-header">
+  <h1>Global Skills & Roles Intelligence</h1>
+  <p class="subtitle">
+    Explore how skills map to real-world IT roles across the industry.
+  </p>
+</div>
+
+
+
+
+
+
+<div class="dashboard-grid" *ngIf="!loading">
+
+  <!-- Job Roles (Top, full width) -->
+  <div class="card roles-card">
+    <h3>Job Roles</h3>
+    <ul class="roles-list">
+      <li *ngFor="let role of roles"
+          (click)="openRole(role)"
+          class="clickable">
+        {{ role.title }}
+      </li>
+    </ul>
+  </div>
+
+  <!-- Role Detail Popup -->
+<div class="popup" *ngIf="selectedRole">
+  <div class="popup-card">
+    <h3>{{ selectedRole.title }}</h3>
+    <p>{{ selectedRole.description }}</p>
+
+    <h4>Required Skills</h4>
+    <ul>
+      <li *ngFor="let s of selectedRole.required_skills">
+        {{ s }}
+      </li>
+    </ul>
+
+    <button (click)="closeRole()">Close</button>
+  </div>
+</div>
+
+
+  <!-- Skills -->
+  <div class="card">
+    <h3>Skills</h3>
+    <ul>
+      <li *ngFor="let skill of skills">{{ skill }}</li>
+    </ul>
+  </div>
+
+  <!-- Skill → Role Mapping -->
+  <div class="card">
+    <h3>Skill → Role Mapping</h3>
+
+    <div *ngFor="let skill of skills" class="map-row">
+      <strong>{{ skill }}:</strong>
+      <span *ngFor="let job of skillMap[skill]" class="role-chip" >
+        {{ job }}
+      </span>
+    </div>
+
+    <a [routerLink]="['/employee/skills', 1]" class="manage-link">
+      ➤ Edit Employee Skills
+    </a>
+  </div>
+
+</div>

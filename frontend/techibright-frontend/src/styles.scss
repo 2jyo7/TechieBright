@@ -1,0 +1,136 @@
+/* You can add global styles to this file, and also import other style files */
+/* ------------------------------
+   GLOBAL APP STYLING
+--------------------------------*/
+
+/* Reset defaults */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background-color: #f4f6f9;
+  color: #333;
+  padding: 20px;
+  line-height: 1.7;
+}
+
+/* Headings */
+h1, h2, h3, h4 {
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #222;
+}
+
+/* ------------------------------
+   BUTTONS
+--------------------------------*/
+button {
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+  background-color: #4338ca;
+}
+
+button:disabled {
+  background-color: #a5b4fc;
+  cursor: not-allowed;
+}
+
+/* ------------------------------
+   INPUTS / FORMS
+--------------------------------*/
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 15px;
+  background-color: white;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 4px rgba(99, 102, 241, 0.3);
+}
+
+/* Space out form fields */
+form > * {
+  margin-bottom: 12px;
+}
+
+/* ------------------------------
+   CARD COMPONENT
+--------------------------------*/
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+/* ------------------------------
+   LISTS
+--------------------------------*/
+ul {
+  padding-left: 20px;
+}
+
+ul li {
+  margin-bottom: 6px;
+}
+
+/* ------------------------------
+   LAYOUT UTILITIES
+--------------------------------*/
+.flex {
+  display: flex;
+  gap: 10px;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+}
+
+/* ------------------------------
+   LOADING SPINNER (Optional)
+--------------------------------*/
+.loader {
+  border: 4px solid #e5e7eb;
+  border-top: 4px solid #4f46e5;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  animation: spin 0.8s linear infinite;
+  margin: 16px auto;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

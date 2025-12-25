@@ -1,0 +1,118 @@
+/* ------------------------------
+   PAGE WRAPPER
+--------------------------------*/
+.ai-container {
+  max-width: 800px;
+  margin: auto;
+  padding: 24px;
+}
+
+/* ------------------------------
+   PAGE TITLE
+--------------------------------*/
+h2 {
+  font-size: 26px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 16px;
+}
+
+/* ------------------------------
+   TEXTAREA
+--------------------------------*/
+textarea {
+  width: 100%;
+  padding: 14px;
+  font-size: 15px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  resize: vertical;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+textarea:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 6px rgba(99, 102, 241, 0.3);
+  outline: none;
+}
+
+/* ------------------------------
+   BUTTON
+--------------------------------*/
+button {
+  margin-top: 12px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  background: #4f46e5;
+  border: none;
+  font-size: 15px;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+button:hover:not(:disabled) {
+  background: #4338ca;
+}
+
+button:disabled {
+  background: #a5b4fc;
+  cursor: not-allowed;
+}
+
+/* ------------------------------
+   ERROR MESSAGE
+--------------------------------*/
+.error-message {
+  color: #dc2626;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+/* ------------------------------
+   LOADING TEXT
+--------------------------------*/
+.loading-text {
+  margin-top: 10px;
+  color: #6b7280;
+  font-style: italic;
+}
+
+/* ------------------------------
+   RESULT CARD
+--------------------------------*/
+.result-card {
+  background: white;
+  margin-top: 24px;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+/* Section titles */
+.result-card h3 {
+  color: #111827;
+  margin-top: 18px;
+  font-size: 20px;
+}
+
+/* Lists inside results */
+.result-card ul,
+.result-card ol {
+  padding-left: 20px;
+  margin-top: 6px;
+}
+
+.result-card li {
+  margin-bottom: 4px;
+}
+
+/* Notes section */
+.result-card p {
+  margin-top: 6px;
+  background: #f9fafb;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 14.5px;
+}

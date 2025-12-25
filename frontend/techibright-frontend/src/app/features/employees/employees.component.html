@@ -1,0 +1,58 @@
+
+
+<div class="employees-container">
+
+  <div class="card employees-header">
+  <h1>Employees</h1>
+  <p class="subtitle">
+    Manage employee profiles to analyze skills, explore role alignment,
+    and receive AI-driven insights for career and hiring readiness.
+  </p>
+</div>
+
+
+
+  <!-- Employee List Card -->
+  <div class="card list-card">
+    <h3>Existing Employees</h3>
+
+    <ul class="employee-list">
+      <li *ngFor="let e of employees">
+        <div class="employee-info">
+          <strong>{{ e.job_title }}</strong>
+          <span>{{ e.country }} · {{ e.work_type }}</span>
+          <span>{{ e.experience_years }} yrs · ${{ e.salary }}</span>
+        </div>
+
+        <a [routerLink]="['/dashboard', e.id]">
+          View Dashboard
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Add Employee Card -->
+  <div class="card form-card">
+    <h3>Add Employee</h3>
+
+    <form (submit)="addEmployee()">
+
+      <input type="text" placeholder="Country" [(ngModel)]="newEmployee.country" name="country"/>
+      <input type="text" placeholder="Job Title" [(ngModel)]="newEmployee.job_title" name="job_title"/>
+      <input type="number" placeholder="Age" [(ngModel)]="newEmployee.age" name="age"/>
+      <input type="text" placeholder="Race" [(ngModel)]="newEmployee.race" name="race"/>
+      <input type="number" placeholder="Experience (years)" [(ngModel)]="newEmployee.experience_years" name="experience_years"/>
+      <input type="number" placeholder="Salary" [(ngModel)]="newEmployee.salary" name="salary"/>
+      <input type="text" placeholder="Industry" [(ngModel)]="newEmployee.industry" name="industry"/>
+
+      <select [(ngModel)]="newEmployee.work_type" name="work_type">
+        <option value="remote">Remote</option>
+        <option value="onsite">Onsite</option>
+        <option value="hybrid">Hybrid</option>
+      </select>
+
+      <button type="submit">Add Employee</button>
+    </form>
+  </div>
+
+</div>

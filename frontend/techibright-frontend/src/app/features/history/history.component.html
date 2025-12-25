@@ -1,0 +1,64 @@
+<div class="history-container">
+
+  <!-- Header -->
+  <div class="card history-header">
+    <h1>AI Recommendation History</h1>
+    <p class="subtitle">
+      Review, edit, or remove past AI-generated career recommendations
+      based on skills, roles, and industry intelligence.
+    </p>
+  </div>
+
+  <!-- Loading / Error -->
+  <p *ngIf="loading" class="status-text">Loading history...</p>
+  <p *ngIf="error" class="error-text">{{ error }}</p>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && history.length === 0" class="empty-state">
+    <p>No recommendations found yet.</p>
+  </div>
+
+  <!-- History Cards -->
+  <div *ngFor="let item of history" class="history-card">
+
+    <!-- Card Header -->
+    <div class="card-header">
+      <h3>Query</h3>
+      <div class="actions">
+        <button class="edit-btn" (click)="editItem(item)">Edit</button>
+        <button class="delete-btn" (click)="deleteItem(item.id)">Delete</button>
+      </div>
+    </div>
+
+    <p class="query-text">{{ item.query }}</p>
+
+    <!-- Skills -->
+    <h4>Skills</h4>
+    <div class="chips">
+      <span class="chip" *ngFor="let s of item.response.skills">{{ s }}</span>
+    </div>
+
+    <!-- Roles -->
+    <h4>Roles</h4>
+    <div class="chips">
+      <span class="chip" *ngFor="let r of item.response.roles">{{ r }}</span>
+    </div>
+
+    <!-- Roadmap -->
+    <h4>Roadmap</h4>
+    <ol>
+      <li *ngFor="let step of item.response.roadmap">{{ step }}</li>
+    </ol>
+
+    <!-- Notes -->
+    <h4>Notes</h4>
+    <p class="notes">{{ item.response.notes }}</p>
+
+    <!-- Date -->
+    <p class="date">
+      Created: {{ item.created_at | date:'medium' }}
+    </p>
+
+  </div>
+
+</div>

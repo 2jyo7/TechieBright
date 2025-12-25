@@ -1,0 +1,40 @@
+<div class="skill-editor-container">
+
+  <h2>Employee Skill Selection</h2>
+
+  <div *ngIf="loading">Loading skills...</div>
+
+  <div class="selected-skill-box" *ngIf="selectedSkills.length > 0">
+    <span class="skill-chip" *ngFor="let skill of selectedSkills">
+      {{ skill }}
+      <button class="remove-btn" (click)="removeSkill(skill)">×</button>
+    </span>
+  </div>
+
+  <input 
+    type="text"
+    [(ngModel)]="searchTerm"
+    (input)="search()"
+    placeholder="Search skills..."
+    class="search-input"
+  />
+
+  <div class="dropdown-list" *ngIf="searchTerm.length > 0">
+    <div 
+      class="dropdown-item"
+      *ngFor="let skill of filteredSkills"
+      (click)="selectSkill(skill)"
+    >
+      {{ skill }}
+    </div>
+
+    <div *ngIf="filteredSkills.length === 0" class="no-skill">
+      No matching skills
+    </div>
+  </div>
+
+  <button class="save-btn" (click)="saveSkills()">Save Skills</button>
+
+  <p class="message" *ngIf="message">{{ message }}</p>
+
+</div>

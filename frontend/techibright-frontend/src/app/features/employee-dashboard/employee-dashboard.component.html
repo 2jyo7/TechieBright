@@ -1,0 +1,50 @@
+<div class="dashboard-container" *ngIf="!loading">
+
+  <!-- Employee Snapshot -->
+  <div class="card">
+    <h2>{{ employee.job_title }}</h2>
+    <p>{{ employee.industry }} · {{ employee.work_type }}</p>
+    <p>{{ employee.experience_years }} years experience</p>
+  </div>
+
+  <!-- Skills -->
+  <div class="card">
+    <h3>My Skills</h3>
+
+    <div class="skills">
+      <span class="skill-chip" *ngFor="let skill of employee.skills">
+        {{ skill }}
+      </span>
+    </div>
+
+    <a [routerLink]="['/employee/skills', userId]" class="link">
+      Edit Skills
+    </a>
+  </div>
+
+  <!-- Actions -->
+  <div class="card">
+    <h3>Next Actions</h3>
+
+    <a routerLink="/recommend" class="action-btn">
+      Generate AI Recommendation
+    </a>
+
+    <a routerLink="/recommend/history" class="action-btn">
+      View Recommendation History
+    </a>
+  </div>
+
+  <!-- Explore -->
+  <div class="card">
+    <h3>Explore</h3>
+    <a routerLink="/global-dashboard">
+      Global Skills & Roles
+    </a>
+  </div>
+
+</div>
+
+<div *ngIf="loading">
+  Loading dashboard...
+</div>

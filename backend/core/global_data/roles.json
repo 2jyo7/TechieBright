@@ -1,0 +1,62 @@
+[
+  {
+    "id": "frontend_developer",
+    "title": "Frontend Developer",
+    "required_skills": ["HTML", "CSS", "JavaScript", "React", "Angular"],
+    "description": "Build user interfaces and client-side applications."
+  },
+  {
+    "id": "backend_developer",
+    "title": "Backend Developer",
+    "required_skills": ["Python", "Java", "Node.js", "Django", "Spring Boot", "SQL"],
+    "description": "Develop server-side logic and APIs."
+  },
+  {
+    "id": "fullstack_developer",
+    "title": "Full-Stack Developer",
+    "required_skills": ["JavaScript", "Python", "SQL", "REST APIs"],
+    "description": "Build end-to-end web applications."
+  },
+  {
+    "id": "data_scientist",
+    "title": "Data Scientist",
+    "required_skills": ["Python", "Machine Learning", "Data Analysis", "SQL"],
+    "description": "Analyze data and build predictive models."
+  },
+  {
+    "id": "data_engineer",
+    "title": "Data Engineer",
+    "required_skills": ["Python", "SQL", "Data Engineering", "AWS"],
+    "description": "Build data pipelines and infrastructure."
+  },
+  {
+    "id": "ai_engineer",
+    "title": "AI Engineer",
+    "required_skills": ["Python", "Machine Learning", "Deep Learning", "NLP"],
+    "description": "Build AI and ML-powered systems."
+  },
+  {
+    "id": "cloud_engineer",
+    "title": "Cloud Engineer",
+    "required_skills": ["AWS", "Azure", "GCP", "Linux", "Docker"],
+    "description": "Design and manage cloud infrastructure."
+  },
+  {
+    "id": "devops_engineer",
+    "title": "DevOps Engineer",
+    "required_skills": ["Linux", "Docker", "Kubernetes", "CI/CD"],
+    "description": "Automate deployments and manage infrastructure."
+  },
+  {
+    "id": "cybersecurity_engineer",
+    "title": "Cybersecurity Engineer",
+    "required_skills": ["Cybersecurity", "Cloud Security", "Linux"],
+    "description": "Protect systems and networks from threats."
+  },
+  {
+    "id": "qa_engineer",
+    "title": "QA Engineer",
+    "required_skills": ["Software Testing", "SQL"],
+    "description": "Ensure software quality and reliability."
+  }
+]

@@ -1,0 +1,164 @@
+/* Page wrapper */
+.history-container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: auto;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* Header card */
+.history-header {
+  background: linear-gradient(135deg, #eef2ff, #ffffff);
+  border-left: 5px solid #2563eb;
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+.history-header h1 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #1e3a8a;
+  margin-bottom: 6px;
+}
+
+.history-header .subtitle {
+  font-size: 15px;
+  color: #1f2937;
+  line-height: 1.6;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Status text */
+.status-text {
+  color: #374151;
+}
+
+.error-text {
+  color: #b91c1c;
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  color: #6b7280;
+  margin-top: 40px;
+}
+
+/* History card */
+.history-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px 22px;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+}
+
+/* Card header */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.card-header h3 {
+  font-size: 18px;
+  color: #111827;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: none;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.edit-btn {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
+.edit-btn:hover {
+  background: #c7d2fe;
+}
+
+.delete-btn {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.delete-btn:hover {
+  background: #fecaca;
+}
+
+/* Query */
+.query-text {
+  font-size: 14px;
+  color: #374151;
+  margin-bottom: 14px;
+}
+
+/* Section titles */
+h4 {
+  margin-top: 14px;
+  margin-bottom: 6px;
+  font-size: 15px;
+  color: #111827;
+}
+
+/* Chips */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.chip {
+  background: #e5e7eb;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+/* Roadmap */
+ol {
+  padding-left: 18px;
+  font-size: 14px;
+  color: #374151;
+}
+
+/* Notes */
+.notes {
+  font-size: 14px;
+  color: #4b5563;
+}
+
+/* Date */
+.date {
+  margin-top: 14px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .actions {
+    align-self: flex-end;
+  }
+}

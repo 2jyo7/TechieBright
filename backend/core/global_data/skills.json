@@ -1,0 +1,42 @@
+[
+  "Python",
+  "Java",
+  "JavaScript",
+  "TypeScript",
+  "C#",
+
+  "HTML",
+  "CSS",
+  "React",
+  "Angular",
+
+  "Node.js",
+  "Django",
+  "Spring Boot",
+  "REST APIs",
+
+  "SQL",
+  "NoSQL",
+  "Data Analysis",
+  "Data Engineering",
+
+  "Machine Learning",
+  "Deep Learning",
+  "NLP",
+
+  "AWS",
+  "Azure",
+  "GCP",
+
+  "Linux",
+  "Docker",
+  "Kubernetes",
+  "CI/CD",
+
+  "Cybersecurity",
+  "Cloud Security",
+
+  "System Design",
+  "DSA",
+  "Software Testing"
+]

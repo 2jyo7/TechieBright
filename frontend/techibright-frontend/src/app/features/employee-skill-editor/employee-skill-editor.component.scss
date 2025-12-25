@@ -1,0 +1,64 @@
+.skill-editor-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 12px;
+}
+
+.dropdown-list {
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 8px;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.dropdown-item {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background: #f3f4f6;
+}
+
+.selected-skill-box {
+  margin-bottom: 12px;
+}
+
+.skill-chip {
+  background: #e5e7eb;
+  padding: 6px 10px;
+  border-radius: 16px;
+  margin-right: 6px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.remove-btn {
+  background: transparent;
+  border: none;
+  margin-left: 4px;
+  cursor: pointer;
+}
+
+.save-btn {
+  margin-top: 12px;
+  padding: 10px 20px;
+  border: none;
+  background: #4f46e5;
+  color: white;
+  border-radius: 8px;
+}
+
+.message {
+  margin-top: 10px;
+  color: green;
+}
