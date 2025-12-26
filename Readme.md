@@ -1,3 +1,8 @@
+<img width="1920" height="1200" alt="Screenshot (179)" src="https://github.com/user-attachments/assets/e963d680-9cbc-4dbf-940d-9497599947db" />
+<img width="1920" height="1200" alt="Screenshot (178)" src="https://github.com/user-attachments/assets/cce62419-9707-4cc4-afbf-1cc52869b9f7" />
+<img width="1920" height="1200" alt="Screenshot (177)" src="https://github.com/user-attachments/assets/79a7e77b-9cc8-40c2-9807-1578cbe95887" />
+<img width="1920" height="1200" alt="Screenshot (176)" src="https://github.com/user-attachments/assets/884ff25b-9429-4b71-a5fb-749e545bc64a" />
+<img width="1920" height="1200" alt="Screenshot (175)" src="https://github.com/user-attachments/assets/440aef73-ca72-4646-9e59-0e2e1b38de7e" />
 # TechieBright – Frontend (Angular)
 
 TechieBright is an AI-driven career intelligence platform for the IT industry that combines curated global skill data with real-world job insights to help individuals and organizations understand what skills matter, which roles they align with, and how to prepare effectively.
