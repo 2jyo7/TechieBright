@@ -61,7 +61,7 @@ export class EmployeeSkillEditorComponent implements OnInit {
   }
 
   saveSkills() {
-    this.api.updateEmployeeSkillsByUser(this.userId, this.selectedSkills).subscribe({
+    this.api.updateMySkills( this.selectedSkills).subscribe({
       next: () => {
         this.message = "Skills updated successfully!";
         this.cdr.detectChanges();

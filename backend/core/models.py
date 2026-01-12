@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils import timezone
+# from django.utils import timezone
 from django.contrib.auth.models import User
 
 
@@ -13,7 +13,7 @@ from django.contrib.auth.models import User
 
 
 class EmployeeData(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
 
     country = models.CharField(max_length=50)
     job_title = models.CharField(max_length=100)
@@ -36,7 +36,7 @@ class EmployeeData(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.job_title} ({self.country})"
+        return f"{self.user.username if self.user else 'Unassigned'} - {self.job_title}"
 
 # =========================
 # SKILL MODEL
@@ -72,3 +72,20 @@ class Recommendation(models.Model):
 
     def __str__(self):
         return f"Recommendation for {self.user.username} on {self.created_at.date()}"
+
+
+# =========================
+# Profile MODEL
+# =========================
+
+class Profile(models.Model):
+    ROLE_CHOICES = (
+        ("employee", "Employee"),
+        ("employer", "Employer"),
+    )
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES)
+
+    def __str__(self):
+        return f"{self.user.username} ({self.role})"

@@ -1,1 +1,64 @@
-<p>register works!</p>
+<div class="auth-container">
+  <div class="auth-card">
+    <h1>Create your account</h1>
+    <p class="subtitle">
+      Join TechieBright and explore skill intelligence
+    </p>
+
+    <form (ngSubmit)="submit()">
+
+      <input
+        type="text"
+        placeholder="Username"
+        [(ngModel)]="formData.username"
+        name="username"
+        required
+      />
+
+      <input
+        type="password"
+        placeholder="Password"
+        [(ngModel)]="formData.password"
+        name="password"
+        required
+      />
+
+      <input
+        type="password"
+        placeholder="Confirm Password"
+        [(ngModel)]="formData.confirmPassword"
+        name="confirmPassword"
+        required
+      />
+
+      <div class="role-select">
+        <label>
+          <input
+            type="radio"
+            name="role"
+            value="employee"
+            [(ngModel)]="formData.role"
+          />
+          Employee
+        </label>
+
+        <label>
+          <input
+            type="radio"
+            name="role"
+            value="employer"
+            [(ngModel)]="formData.role"
+          />
+          Employer
+        </label>
+      </div>
+
+      <button type="submit">Create Account</button>
+    </form>
+
+    <p class="switch">
+      Already have an account?
+      <a routerLink="/login">Sign in</a>
+    </p>
+  </div>
+</div>

@@ -225,34 +225,8 @@ Server will run at:
 
 http://localhost:8000
 
-🔌 Core API Endpoints
-Employees
 
-GET /api/employees/
 
-POST /api/employees/add/
-
-GET /api/employees/<id>/
-
-PUT /api/employees/by-user/<id>/update-skills/
-
-Global Data
-
-GET /api/global/skills/
-
-GET /api/global/roles/
-
-GET /api/global/skill-role-map/
-
-AI Recommendations
-
-POST /api/ai/recommend/
-
-GET /api/ai/history/<user_id>/
-
-PUT /api/ai/history/edit/<id>/
-
-DELETE /api/ai/history/delete/<id>/
 
 🧠 Dataset Integration
 

@@ -19,7 +19,7 @@ export class HistoryComponent implements OnInit {
   constructor(private api: ApiService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
-    this.api.getRecommendationHistory(this.user_id).subscribe({
+    this.api.getRecommendationHistory().subscribe({
       next: (res) => {
         this.history = structuredClone(res);  // ⬅ ensures new object reference
         this.loading = false;

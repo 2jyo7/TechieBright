@@ -1,0 +1,54 @@
+<header class="header">
+  <div class="container">
+
+    <!-- Logo -->
+    <a class="logo" routerLink="/">
+      Techie<span>Bright</span>
+    </a>
+
+    <!-- AUTHENTICATED NAV -->
+    <nav *ngIf="(user$ | async) as user; else guestNav" class="nav">
+
+      <!-- =========================
+           EMPLOYEE NAV
+           ========================= -->
+      <ng-container *ngIf="user.role === 'employee'">
+        <a routerLink="/employee/profile">My Profile</a>
+        <a routerLink="/employee/dashboard">Dashboard</a>
+        <a routerLink="/recommend">AI Recommendations</a>
+        <a routerLink="/recommend/history">History</a>
+      </ng-container>
+
+      <!-- =========================
+           EMPLOYER NAV
+           ========================= -->
+      <ng-container *ngIf="user.role === 'employer'">
+        <a routerLink="/employees">Employees</a>
+        <a routerLink="/employees/add">Add Employee</a>
+      </ng-container>
+
+      <!-- =========================
+           COMMON
+           ========================= -->
+      <a routerLink="/global-dashboard">Global Skills</a>
+
+      <!-- =========================
+           USER ACTIONS
+           ========================= -->
+      <div class="user">
+        <span class="username">{{ user.username }}</span>
+        <button class="logout-btn" (click)="logout()">Logout</button>
+      </div>
+
+    </nav>
+
+    <!-- GUEST NAV -->
+    <ng-template #guestNav>
+      <nav class="nav">
+        <a routerLink="/login">Login</a>
+        <a routerLink="/register" class="primary">Get Started</a>
+      </nav>
+    </ng-template>
+
+  </div>
+</header>

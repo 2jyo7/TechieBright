@@ -1,1 +1,33 @@
-<p>login works!</p>
+<div class="auth-container">
+  <div class="auth-card">
+    <h1>Welcome back</h1>
+    <p class="subtitle">
+      Sign in to continue to TechieBright
+    </p>
+
+    <form (ngSubmit)="submit()">
+      <input
+        type="text"
+        placeholder="Username"
+        [(ngModel)]="formData.username"
+        name="username"
+        required
+      />
+
+      <input
+        type="password"
+        placeholder="Password"
+        [(ngModel)]="formData.password"
+        name="password"
+        required
+      />
+
+      <button type="submit">Sign In</button>
+    </form>
+
+    <p class="switch">
+      Don’t have an account?
+      <a routerLink="/register">Create one</a>
+    </p>
+  </div>
+</div>

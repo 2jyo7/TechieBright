@@ -52,6 +52,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -83,6 +84,16 @@ CORS_ALLOWED_ORIGINS = [
   "http://localhost:4200",
   # add other origins if needed
 ]
+
+CORS_ALLOW_CREDENTIALS = True
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:4200",
+]
+SESSION_COOKIE_SAMESITE = "Lax"
+CSRF_COOKIE_SAMESITE = "Lax"
+SESSION_COOKIE_HTTPONLY = True
+
 
 WSGI_APPLICATION = 'techibright.wsgi.application'
 

@@ -14,7 +14,6 @@ import { AIRecommendation } from '../../models/ai.model';
 export class RecommendComponent {
 
   query = '';
-  user_id = 1;  // later dynamic (login)
   loading = false;
   errorMsg = '';
   recommendation: AIRecommendation | null = null;
@@ -34,7 +33,7 @@ export class RecommendComponent {
     this.errorMsg = '';
     this.recommendation = null; // reset UI immediately
 
-    this.api.aiRecommend({ user_id: this.user_id, query: this.query })
+    this.api.aiRecommend( this.query )
       .subscribe({
         next: (res) => {
           // Force Angular change detection (fixes the double-click issue)

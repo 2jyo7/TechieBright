@@ -31,28 +31,97 @@
     </ul>
   </div>
 
-  <!-- Add Employee Card -->
-  <div class="card form-card">
-    <h3>Add Employee</h3>
+  
+ <!-- Add Employee Card -->
+<div class="card form-card">
+  <h3>Add Employee</h3>
 
-    <form (submit)="addEmployee()">
+  <form (submit)="addEmployee()" class="employee-form">
 
-      <input type="text" placeholder="Country" [(ngModel)]="newEmployee.country" name="country"/>
-      <input type="text" placeholder="Job Title" [(ngModel)]="newEmployee.job_title" name="job_title"/>
-      <input type="number" placeholder="Age" [(ngModel)]="newEmployee.age" name="age"/>
-      <input type="text" placeholder="Race" [(ngModel)]="newEmployee.race" name="race"/>
-      <input type="number" placeholder="Experience (years)" [(ngModel)]="newEmployee.experience_years" name="experience_years"/>
-      <input type="number" placeholder="Salary" [(ngModel)]="newEmployee.salary" name="salary"/>
-      <input type="text" placeholder="Industry" [(ngModel)]="newEmployee.industry" name="industry"/>
+    <div class="form-group">
+      <label>Country</label>
+      <input
+        type="text"
+        placeholder="e.g. India"
+        [(ngModel)]="newEmployee.country"
+        name="country"
+      />
+    </div>
 
+    <div class="form-group">
+      <label>Job Title</label>
+      <input
+        type="text"
+        placeholder="e.g. Software Engineer"
+        [(ngModel)]="newEmployee.job_title"
+        name="job_title"
+      />
+    </div>
+
+    <div class="form-group">
+      <label>Age</label>
+      <input
+        type="number"
+        placeholder="e.g. 26"
+        [(ngModel)]="newEmployee.age"
+        name="age"
+      />
+    </div>
+
+    <div class="form-group">
+      <label>Race</label>
+      <input
+        type="text"
+        placeholder="Optional"
+        [(ngModel)]="newEmployee.race"
+        name="race"
+      />
+    </div>
+
+    <div class="form-group">
+      <label>Experience (Years)</label>
+      <input
+        type="number"
+        placeholder="e.g. 3"
+        [(ngModel)]="newEmployee.experience_years"
+        name="experience_years"
+      />
+    </div>
+
+    <div class="form-group">
+      <label>Salary</label>
+      <input
+        type="number"
+        placeholder="e.g. 800000"
+        [(ngModel)]="newEmployee.salary"
+        name="salary"
+      />
+    </div>
+
+    <div class="form-group">
+      <label>Industry</label>
+      <input
+        type="text"
+        placeholder="e.g. IT Services"
+        [(ngModel)]="newEmployee.industry"
+        name="industry"
+      />
+    </div>
+
+    <div class="form-group">
+      <label>Work Type</label>
       <select [(ngModel)]="newEmployee.work_type" name="work_type">
         <option value="remote">Remote</option>
         <option value="onsite">Onsite</option>
         <option value="hybrid">Hybrid</option>
       </select>
+    </div>
 
-      <button type="submit">Add Employee</button>
-    </form>
-  </div>
+    <button type="submit" class="primary-btn">
+      Add Employee
+    </button>
+  </form>
+</div>
+
 
 </div>

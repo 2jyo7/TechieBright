@@ -1,0 +1,75 @@
+<div class="profile-container" *ngIf="loading; else loadingTpl">
+
+  <!-- Header -->
+  <div  class="card header-card">
+    <h1>My Profile</h1>
+    <p class="subtitle">
+      Complete your profile to receive accurate skill gap analysis
+      and AI-powered career recommendations.
+    </p>
+  </div>
+
+  <!-- BASIC INFO -->
+  <div class="card">
+    <h3>Professional Information</h3>
+
+    <div class="form-grid">
+      <div>
+        <label>Job Title</label>
+        <input [(ngModel)]="profile.job_title" />
+      </div>
+
+      <div>
+        <label>Industry</label>
+        <input [(ngModel)]="profile.industry" />
+      </div>
+
+      <div>
+        <label>Experience (Years)</label>
+        <input type="number" [(ngModel)]="profile.experience_years" />
+      </div>
+
+      <div>
+        <label>Work Type</label>
+        <select [(ngModel)]="profile.work_type">
+          <option value="remote">Remote</option>
+          <option value="onsite">Onsite</option>
+          <option value="hybrid">Hybrid</option>
+        </select>
+      </div>
+    </div>
+
+    <button (click)="saveProfile()" [disabled]="saving">
+      {{ saving ? 'Saving...' : 'Save Profile' }}
+    </button>
+
+    <p class="success" *ngIf="message">{{ message }}</p>
+    <p class="error" *ngIf="error">{{ error }}</p>
+  </div>
+
+  <!-- SKILLS -->
+  <div class="card">
+    <h3>My Skills</h3>
+
+    <div class="skills">
+      <span class="skill-chip" *ngFor="let skill of profile.skills">
+        {{ skill }}
+        <button (click)="removeSkill(skill)">×</button>
+      </span>
+    </div>
+
+    <div class="add-skill">
+      <input
+        placeholder="Add a skill"
+        [(ngModel)]="newSkill"
+        (keyup.enter)="addSkill()"
+      />
+      <button (click)="addSkill()">Add</button>
+    </div>
+  </div>
+
+</div>
+
+<ng-template #loadingTpl>
+  <p class="loading">Loading profile... jyoti</p>
+</ng-template>
