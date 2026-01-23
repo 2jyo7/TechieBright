@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { tap, catchError } from 'rxjs/operators';
+import { tap, catchError, switchMap, shareReplay } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -9,69 +9,92 @@ import { tap, catchError } from 'rxjs/operators';
 export class AuthService {
 
   private readonly USER_KEY = 'techiebright_user';
-  private readonly API = 'http://localhost:8000/api';
+  private readonly API = '/api';
+
 
   private userSubject = new BehaviorSubject<any>(this.getUserFromStorage());
   user$ = this.userSubject.asObservable();
 
+  // 🔑 CSRF readiness stream
+  private csrfReady$: Observable<boolean>;
+
   constructor(private http: HttpClient) {
-    this.verifySession();
+    this.csrfReady$ = this.initCsrf().pipe(shareReplay(1));
   }
 
   /* ===============================
-     SIGNUP
+     CSRF INITIALIZATION
+  =============================== */
+  private initCsrf(): Observable<boolean> {
+    return this.http.get<any>(`${this.API}/auth/me/`, {
+      withCredentials: true,
+    }).pipe(
+      tap(res => {
+        if (res?.authenticated) {
+          this.setUser(res);
+        } else {
+          this.clearUser();
+        }
+      }),
+      switchMap(() => of(true)),
+      catchError(() => {
+        this.clearUser();
+        return of(true); // still allow CSRF to be considered "ready"
+      })
+    );
+  }
+
+  /* ===============================
+     SIGNUP (CSRF SAFE)
   =============================== */
   signup(data: {
     username: string;
     password: string;
     role: 'employee' | 'employer';
   }): Observable<any> {
-    return this.http.post<any>(`${this.API}/auth/signup/`, data, {
-      withCredentials: true,
-    }).pipe(
+    return this.csrfReady$.pipe(
+      switchMap(() =>
+        this.http.post<any>(`${this.API}/auth/signup/`, data, {
+          withCredentials: true,
+        })
+      ),
       tap(user => this.setUser(user))
     );
   }
 
   /* ===============================
-     LOGIN
+     LOGIN (CSRF SAFE)
   =============================== */
   login(data: {
     username: string;
     password: string;
   }): Observable<any> {
-    return this.http.post<any>(`${this.API}/auth/login/`, data, {
-      withCredentials: true,
-    }).pipe(
+    return this.csrfReady$.pipe(
+      switchMap(() =>
+        this.http.post<any>(`${this.API}/auth/login/`, data, {
+          withCredentials: true,
+        })
+      ),
       tap(user => this.setUser(user))
     );
   }
 
   /* ===============================
-     LOGOUT
+     LOGOUT (CSRF SAFE)
   =============================== */
-  logout(): void {
-    this.http.post(`${this.API}/auth/logout/`, {}, {
-      withCredentials: true,
-    }).subscribe({
-      next: () => this.clearUser(),
-      error: () => this.clearUser(),
-    });
-  }
-
-  /* ===============================
-     SESSION VALIDATION
-  =============================== */
-  private verifySession(): void {
-    this.http.get<any>(`${this.API}/auth/me/`, {
-      withCredentials: true,
-    }).pipe(
-      tap(user => this.setUser(user)),
+  logout(): Observable<any> {
+    return this.csrfReady$.pipe(
+      switchMap(() =>
+        this.http.post(`${this.API}/auth/logout/`, {}, {
+          withCredentials: true,
+        })
+      ),
+      tap(() => this.clearUser()),
       catchError(() => {
         this.clearUser();
         return of(null);
       })
-    ).subscribe();
+    );
   }
 
   /* ===============================
@@ -100,6 +123,6 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    return !!this.userSubject.value;
+    return !!this.userSubject.value?.authenticated;
   }
 }

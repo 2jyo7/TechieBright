@@ -40,6 +40,7 @@ export class EmployeesComponent implements OnInit {
     this.api.getEmployees().subscribe({
       next: (res) => {
         this.employees = res;
+        // console.log('Employees loaded:', res);
         this.cdr.detectChanges(); // 🔥 force UI update
       },
       error: (err) => console.error(err)

@@ -1,5 +1,4 @@
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 import json, os
 
 from core.models import Recommendation
@@ -24,7 +23,7 @@ def safe_parse_json(text):
         end = text.rfind('}')
         if start != -1 and end != -1 and end > start:
             try:
-                return json.loads(text[start:end+1])
+                return json.loads(text[start:end + 1])
             except Exception:
                 pass
     return None
@@ -33,23 +32,21 @@ def safe_parse_json(text):
 # ===============================
 # AI Recommendation (EMPLOYEE)
 # ===============================
-
 @employee_required
-@csrf_exempt
 def ai_recommendation(request):
     if request.method != "POST":
         return JsonResponse({"error": "Invalid request method"}, status=400)
 
     try:
         data = json.loads(request.body)
-        input_query = data.get("query")
+    except json.JSONDecodeError:
+        return JsonResponse({"error": "Invalid JSON"}, status=400)
 
-        if not input_query:
-            return JsonResponse({"error": "Query is required"}, status=400)
+    input_query = data.get("query")
+    if not input_query:
+        return JsonResponse({"error": "Query is required"}, status=400)
 
-        user = request.user
-
-        prompt = f"""
+    prompt = f"""
 You are an IT career advisor. You must output ONLY a valid JSON object.
 
 Format:
@@ -68,6 +65,7 @@ User query: "{input_query}"
 Pick skills and roles ONLY from the global lists.
 """
 
+    try:
         response = client.chat.completions.create(
             model="llama-3.1-8b-instant",
             messages=[
@@ -76,74 +74,71 @@ Pick skills and roles ONLY from the global lists.
             ],
             temperature=0.0,
         )
+    except Exception as e:
+        return JsonResponse({"error": "AI service unavailable"}, status=502)
 
-        raw = response.choices[0].message.content
-        parsed = safe_parse_json(raw)
+    raw = response.choices[0].message.content
+    parsed = safe_parse_json(raw)
 
-        if not parsed:
-            return JsonResponse(
-                {"error": "AI did not return valid JSON"},
-                status=502
-            )
-
-        parsed.setdefault("skills", [])
-        parsed.setdefault("roles", [])
-        parsed.setdefault("roadmap", [])
-        parsed.setdefault("notes", "")
-
-        # ===============================
-        # Dataset enrichment
-        # ===============================
-
-        dataset_insights = []
-
-        for skill in parsed["skills"]:
-            demand = SKILL_DEMAND.get(skill, 0.5)
-            dataset_insights.append({
-                "skill": skill,
-                "demand_score": demand,
-                "avg_salary": SALARY_DATA.get(skill, 500000),
-                "market_note": "High demand" if demand > 0.75 else "Moderate demand"
-            })
-
-        parsed["dataset_insights"] = dataset_insights
-
-        # ===============================
-        # Role matching
-        # ===============================
-
-        matched_roles = set()
-        for skill in parsed["skills"]:
-            matched_roles.update(SKILL_ROLE_MAP.get(skill, []))
-
-        parsed["matched_roles"] = list(matched_roles)
-
-        # ===============================
-        # Save recommendation
-        # ===============================
-
-        Recommendation.objects.create(
-            user=user,
-            input_query=input_query,
-            ai_response=json.dumps(parsed, ensure_ascii=False)
+    if not parsed:
+        return JsonResponse(
+            {"error": "AI did not return valid JSON"},
+            status=502
         )
 
-        return JsonResponse({"recommendation": parsed})
+    parsed.setdefault("skills", [])
+    parsed.setdefault("roles", [])
+    parsed.setdefault("roadmap", [])
+    parsed.setdefault("notes", "")
 
-    except Exception as e:
-        return JsonResponse({"error": str(e)}, status=400)
+    # ===============================
+    # Dataset enrichment
+    # ===============================
+    dataset_insights = []
+
+    for skill in parsed["skills"]:
+        demand = SKILL_DEMAND.get(skill, 0.5)
+        dataset_insights.append({
+            "skill": skill,
+            "demand_score": demand,
+            "avg_salary": SALARY_DATA.get(skill, 500000),
+            "market_note": "High demand" if demand > 0.75 else "Moderate demand"
+        })
+
+    parsed["dataset_insights"] = dataset_insights
+
+    # ===============================
+    # Role matching
+    # ===============================
+    matched_roles = set()
+    for skill in parsed["skills"]:
+        matched_roles.update(SKILL_ROLE_MAP.get(skill, []))
+
+    parsed["matched_roles"] = list(matched_roles)
+
+    # ===============================
+    # Save recommendation
+    # ===============================
+    Recommendation.objects.create(
+        user=request.user,
+        input_query=input_query,
+        ai_response=json.dumps(parsed, ensure_ascii=False)
+    )
+
+    return JsonResponse({"recommendation": parsed})
 
 
 # ===============================
 # Recommendation History (EMPLOYEE)
 # ===============================
-
 @employee_required
 def get_recommendations(request):
     if request.method != "GET":
         return JsonResponse({"error": "Invalid request method"}, status=400)
 
-    recs = Recommendation.objects.filter(user=request.user).order_by("-created_at")
+    recs = Recommendation.objects.filter(
+        user=request.user
+    ).order_by("-created_at")
 
     output = []
     for rec in recs:
@@ -165,43 +160,45 @@ def get_recommendations(request):
 # ===============================
 # Delete Recommendation (EMPLOYEE)
 # ===============================
-
 @employee_required
-@csrf_exempt
 def delete_recommendation(request, rec_id):
     if request.method != "DELETE":
         return JsonResponse({"error": "Invalid request method"}, status=400)
 
-    try:
-        rec = Recommendation.objects.get(id=rec_id, user=request.user)
-        rec.delete()
-        return JsonResponse({"message": "Deleted successfully"})
-    except Recommendation.DoesNotExist:
+    deleted, _ = Recommendation.objects.filter(
+        id=rec_id,
+        user=request.user
+    ).delete()
+
+    if not deleted:
         return JsonResponse({"error": "Record not found"}, status=404)
+
+    return JsonResponse({"message": "Deleted successfully"})
 
 
 # ===============================
 # Edit Recommendation (EMPLOYEE)
 # ===============================
-
 @employee_required
-@csrf_exempt
 def edit_recommendation(request, rec_id):
     if request.method != "PUT":
         return JsonResponse({"error": "Invalid request method"}, status=400)
 
     try:
         body = json.loads(request.body)
-        new_query = body.get("query")
+    except json.JSONDecodeError:
+        return JsonResponse({"error": "Invalid JSON"}, status=400)
 
-        if not new_query:
-            return JsonResponse({"error": "Query cannot be empty"}, status=400)
+    new_query = body.get("query")
+    if not new_query:
+        return JsonResponse({"error": "Query cannot be empty"}, status=400)
 
-        rec = Recommendation.objects.get(id=rec_id, user=request.user)
-        rec.input_query = new_query
-        rec.save()
+    updated = Recommendation.objects.filter(
+        id=rec_id,
+        user=request.user
+    ).update(input_query=new_query)
 
-        return JsonResponse({"message": "Updated successfully"})
-
-    except Recommendation.DoesNotExist:
+    if not updated:
         return JsonResponse({"error": "Record not found"}, status=404)
+
+    return JsonResponse({"message": "Updated successfully"})

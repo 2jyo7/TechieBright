@@ -48,6 +48,8 @@ export class LoginComponent {
       error: (err) => {
         this.loading = false;
         this.error = err?.error?.error || 'Invalid credentials';
+         // force UI back to logged-out state
+        this.auth['clearUser']?.();
       }
     });
   }

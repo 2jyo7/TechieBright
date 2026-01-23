@@ -22,8 +22,10 @@ export class HeaderComponent {
     this.user$ = this.auth.user$;
   }
 
-  logout() {
-    this.auth.logout();
+ logout() {
+  this.auth.logout().subscribe(() => {
     this.router.navigate(['/login']);
-  }
+  });
+}
+
 }

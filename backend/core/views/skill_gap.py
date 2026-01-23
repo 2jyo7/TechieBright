@@ -1,4 +1,4 @@
-from django.views.decorators.csrf import csrf_exempt
+
 from django.http import JsonResponse
 import json
 
@@ -8,7 +8,6 @@ from core.utils.auth import employee_required
 
 
 @employee_required
-@csrf_exempt
 def skill_gap_analysis(request):
     if request.method != "POST":
         return JsonResponse({"error": "Invalid method"}, status=400)

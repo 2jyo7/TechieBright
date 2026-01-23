@@ -1,17 +1,15 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import ensure_csrf_cookie
 import json
 
-from core.models import Profile, EmployeeData
-
+from core.models import Profile
 
 
 # ===============================
-# SIGN UP
+# SIGNUP
 # ===============================
-@csrf_exempt
 def signup_view(request):
     if request.method != "POST":
         return JsonResponse({"error": "Invalid method"}, status=400)
@@ -21,11 +19,8 @@ def signup_view(request):
 
         username = data.get("username")
         password = data.get("password")
-        role = data.get("role")  # "employee" | "employer"
+        role = data.get("role")
 
-        # ---------------------------
-        # Validation
-        # ---------------------------
         if not username or not password or not role:
             return JsonResponse({"error": "All fields are required"}, status=400)
 
@@ -35,56 +30,32 @@ def signup_view(request):
         if User.objects.filter(username=username).exists():
             return JsonResponse({"error": "Username already exists"}, status=400)
 
-        # ---------------------------
-        # Create User
-        # ---------------------------
         user = User.objects.create_user(
             username=username,
             password=password
         )
 
-        # ---------------------------
-        # Create Profile
-        # ---------------------------
         Profile.objects.create(
             user=user,
             role=role
         )
 
-        # ---------------------------
-        # Create EmployeeData (ONLY for employees)
-        # ---------------------------
-        if role == "employee":
-            EmployeeData.objects.create(
-                user=user,
-                country="",
-                job_title="",
-                age=0,
-                race="",
-                experience_years=0,
-                salary=0,
-                industry="",
-                work_type="remote",
-                skills=[]
-            )
-
-        # ---------------------------
-        # Auto login after signup
-        # ---------------------------
         login(request, user)
 
         return JsonResponse({
-            "message": "Account created",
+            "authenticated": True,
             "username": user.username,
             "role": role
         })
 
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=400)
+
+
 # ===============================
 # LOGIN
 # ===============================
-@csrf_exempt
+@ensure_csrf_cookie
 def login_view(request):
     if request.method != "POST":
         return JsonResponse({"error": "Invalid method"}, status=400)
@@ -103,7 +74,7 @@ def login_view(request):
         login(request, user)
 
         return JsonResponse({
-            "message": "Logged in",
+            "authenticated": True,
             "username": user.username,
             "role": user.profile.role
         })
@@ -115,15 +86,15 @@ def login_view(request):
 # ===============================
 # LOGOUT
 # ===============================
-@csrf_exempt
 def logout_view(request):
     logout(request)
     return JsonResponse({"message": "Logged out"})
 
 
 # ===============================
-# CURRENT USER (SESSION CHECK)
+# SESSION CHECK (CSRF COOKIE SOURCE)
 # ===============================
+@ensure_csrf_cookie
 def me(request):
     if not request.user.is_authenticated:
         return JsonResponse({"authenticated": False})

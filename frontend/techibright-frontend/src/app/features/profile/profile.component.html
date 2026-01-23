@@ -1,7 +1,7 @@
-<div class="profile-container" *ngIf="loading; else loadingTpl">
+<div class="profile-container" *ngIf="!loading; else loadingTpl">
 
-  <!-- Header -->
-  <div  class="card header-card">
+  <!-- HEADER -->
+  <div class="card header-card">
     <h1>My Profile</h1>
     <p class="subtitle">
       Complete your profile to receive accurate skill gap analysis
@@ -14,21 +14,26 @@
     <h3>Professional Information</h3>
 
     <div class="form-grid">
+
+      <!-- JOB TITLE -->
       <div>
         <label>Job Title</label>
         <input [(ngModel)]="profile.job_title" />
       </div>
 
+      <!-- INDUSTRY -->
       <div>
         <label>Industry</label>
         <input [(ngModel)]="profile.industry" />
       </div>
 
+      <!-- EXPERIENCE -->
       <div>
         <label>Experience (Years)</label>
         <input type="number" [(ngModel)]="profile.experience_years" />
       </div>
 
+      <!-- WORK TYPE -->
       <div>
         <label>Work Type</label>
         <select [(ngModel)]="profile.work_type">
@@ -37,6 +42,31 @@
           <option value="hybrid">Hybrid</option>
         </select>
       </div>
+
+      <!-- COUNTRY -->
+      <div>
+        <label>Country</label>
+        <input [(ngModel)]="profile.country" />
+      </div>
+
+      <!-- AGE -->
+      <div>
+        <label>Age</label>
+        <input type="number" [(ngModel)]="profile.age" />
+      </div>
+
+      <!-- RACE -->
+      <div>
+        <label>Race</label>
+        <input [(ngModel)]="profile.race" />
+      </div>
+
+      <!-- SALARY -->
+      <div>
+        <label>Salary</label>
+        <input type="number" [(ngModel)]="profile.salary" />
+      </div>
+
     </div>
 
     <button (click)="saveProfile()" [disabled]="saving">
@@ -70,6 +100,7 @@
 
 </div>
 
+<!-- LOADING -->
 <ng-template #loadingTpl>
   <p class="loading">Loading profile... jyoti</p>
 </ng-template>

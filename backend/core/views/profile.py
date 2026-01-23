@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import ensure_csrf_cookie
 import json
 
 from core.models import EmployeeData
@@ -7,17 +7,27 @@ from core.utils.auth import employee_required
 
 
 # ===============================
-# GET PROFILE
+# GET PROFILE (SAFE, NO 404)
 # ===============================
 @employee_required
 def get_employee_profile(request):
     if request.method != "GET":
         return JsonResponse({"error": "Invalid method"}, status=400)
 
-    try:
-        emp = EmployeeData.objects.get(user=request.user)
-    except EmployeeData.DoesNotExist:
-        return JsonResponse({"error": "Profile not found"}, status=404)
+    emp, _ = EmployeeData.objects.get_or_create(
+        user=request.user,
+        defaults={
+            "country": "",
+            "job_title": "",
+            "age": 0,
+            "race": "",
+            "experience_years": 0,
+            "salary": 0,
+            "industry": "",
+            "work_type": "remote",
+            "skills": []
+        }
+    )
 
     return JsonResponse({
         "country": emp.country,
@@ -32,20 +42,15 @@ def get_employee_profile(request):
     })
 
 
-
 # ===============================
-# UPDATE PROFILE
+# UPDATE PROFILE (SAFE)
 # ===============================
 @employee_required
-@csrf_exempt
 def update_employee_profile(request):
     if request.method != "PUT":
         return JsonResponse({"error": "Invalid method"}, status=400)
 
-    try:
-        emp = EmployeeData.objects.get(user=request.user)
-    except EmployeeData.DoesNotExist:
-        return JsonResponse({"error": "Profile not found"}, status=404)
+    emp, _ = EmployeeData.objects.get_or_create(user=request.user)
 
     try:
         data = json.loads(request.body)
@@ -67,38 +72,40 @@ def update_employee_profile(request):
 
 
 # ===============================
-# DELETE PROFILE (OPTIONAL)
+# UPDATE SKILLS (SAFE)
 # ===============================
 @employee_required
-@csrf_exempt
-def delete_employee_profile(request):
-    if request.method != "DELETE":
-        return JsonResponse({"error": "Invalid method"}, status=400)
-
-    try:
-        emp = EmployeeData.objects.get(user=request.user)
-        emp.delete()
-        return JsonResponse({"message": "Profile deleted"})
-    except EmployeeData.DoesNotExist:
-        return JsonResponse({"error": "Profile not found"}, status=404)
-
-# ===============================
-# EMPLOYEE Skills VIEWS
-# ===============================
-
-@employee_required
-@csrf_exempt
 def update_employee_skills(request):
     if request.method != "PUT":
         return JsonResponse({"error": "Invalid method"}, status=400)
 
-    try:
-        emp = EmployeeData.objects.get(user=request.user)
-    except EmployeeData.DoesNotExist:
-        return JsonResponse({"error": "Employee not found"}, status=404)
+    emp, _ = EmployeeData.objects.get_or_create(user=request.user)
 
-    data = json.loads(request.body)
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({"error": "Invalid JSON"}, status=400)
+
     emp.skills = data.get("skills", [])
     emp.save()
 
-    return JsonResponse({"message": "Skills updated!"})
+    return JsonResponse({"message": "Skills updated"})
+
+
+# ===============================
+# DELETE PROFILE (SAFE)
+# ===============================
+@employee_required
+def delete_employee_profile(request):
+    if request.method != "DELETE":
+        return JsonResponse({"error": "Invalid method"}, status=400)
+
+    emp = EmployeeData.objects.filter(user=request.user).first()
+
+    if not emp:
+        # Profile already doesn't exist → still OK
+        return JsonResponse({"message": "Profile already deleted"})
+
+    emp.delete()
+
+    return JsonResponse({"message": "Profile deleted successfully"})

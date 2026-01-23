@@ -24,9 +24,10 @@
           <span>{{ e.experience_years }} yrs · ${{ e.salary }}</span>
         </div>
 
-        <a [routerLink]="['/dashboard', e.id]">
-          View Dashboard
-        </a>
+        <a routerLink="/employee/dashboard">
+  View Dashboard
+</a>
+
       </li>
     </ul>
   </div>
